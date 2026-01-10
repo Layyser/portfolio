@@ -60,8 +60,8 @@ async function init() {
         return; 
     }
 
-    const vsSource = await loadShaderSource('../shaders/vertex.glsl');
-    const fsSource = await loadShaderSource('../shaders/fragment.glsl');
+    const vsSource = await loadShaderSource('shaders/vertex.glsl');
+    const fsSource = await loadShaderSource('shaders/fragment.glsl');
 
     const program = gl.createProgram();
     gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vsSource));
@@ -75,7 +75,7 @@ async function init() {
     
     gl.useProgram(program);
 
-    const response = await fetch('../models/torus2.obj');
+    const response = await fetch('models/torus2.obj');
     const text = await response.text();
     const vertices = parseOBJ(text);
     const boundingBoxInfo = computeBoundingBox(vertices);
