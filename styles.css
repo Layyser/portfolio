@@ -491,7 +491,7 @@ a.ref:hover {
     position: absolute;
     top: 100%;
     right: 0%;
-    width: 30%;
+    width: 40%;
     background: var(--bg-elevated); /* Slightly lighter background */
     border-bottom: 1px solid var(--border);
     padding: 2rem 0;
@@ -509,7 +509,7 @@ a.ref:hover {
   nav.active {
     opacity: 1;
     visibility: visible;
-    width: 30%;
+    width: 40%;
     right: 0%;
   }
 
@@ -562,9 +562,51 @@ a.ref:hover {
     top: 50%;
     transform: translateX(-50%) rotate(-45deg);
   }
+
+  .skills-grid {
+    gap: 1.5rem; /* Tighten gap for small screens */
+    grid-template-columns: 1fr; /* Force single column on very small phones */
+  }
+  
+  .skill-list {
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .skill-list span {
+    font-size: 0.8rem; /* Slightly smaller text for tiny screens */
+    padding: 0.4rem 0.8rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr; /* This forces them to stack */
+    gap: 1rem; /* Optional: reduce gap slightly for mobile */
+  }
 }
 
 .resize-animation-stopper * {
   animation: none !important;
   transition: none !important;
+}
+
+
+@media (max-width: 480px) {
+  /* Prevent text overflow */
+  h1 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Fix the email and other long strings */
+  .contact-email, .hero-description {
+    word-break: break-word;
+  }
+
+  /* Ensure no element can ever be wider than the screen */
+  body, html {
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+  }
+
 }
