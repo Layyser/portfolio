@@ -1,11 +1,9 @@
 import { parseOBJ } from './parser.js';
 
 // Dither settings
-const PIXEL_SCALE = 1; // integers from 1 (no scaling) to 4 (very pixelated)
+const PIXEL_SCALE = 4; // integers from 1 (no scaling) to 4 (very pixelated)
 const DITHER_MATRIX_SIZE = 4; // 2/4/8
-const DITHER_BIAS = 0.7; // float from 0 to 1
-
-
+const DITHER_BIAS = 0.6; // 0.0 to 1.0
 
 async function loadShaderSource(url) {
     const response = await fetch(url);
@@ -29,7 +27,6 @@ function computeBoundingBox(vertices) {
     let minY = Infinity, maxY = -Infinity;
     let minZ = Infinity, maxZ = -Infinity;
 
-    // The stride is 9 floats (x, y, z, r, g, b, nx, ny, nz)
     for (let i = 0; i < vertices.length; i += 9) {
         const x = vertices[i];
         const y = vertices[i + 1];
@@ -52,21 +49,19 @@ function computeBoundingBox(vertices) {
 
 async function init() {
     const canvas = document.getElementById('glcanvas');
-    canvas.style.imageRendering = "pixelated"; // Chromium/modern browsers
-    canvas.style.imageRendering = "crisp-edges"; // Firefox fallback
+    canvas.style.imageRendering = "pixelated"; 
     canvas.style.width = "100%";
     canvas.style.height = "100%";
 
     const gl = canvas.getContext('webgl2');
 
-    
     if (!gl) { 
         alert("WebGL 2 not supported"); 
         return; 
     }
 
-    const vsSource = await loadShaderSource('vertex.glsl');
-    const fsSource = await loadShaderSource('fragment.glsl');
+    const vsSource = await loadShaderSource('../shaders/vertex.glsl');
+    const fsSource = await loadShaderSource('../shaders/fragment.glsl');
 
     const program = gl.createProgram();
     gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vsSource));
@@ -80,8 +75,7 @@ async function init() {
     
     gl.useProgram(program);
 
-    // --- Load Model ---
-    const response = await fetch('torus.obj');
+    const response = await fetch('../models/torus2.obj');
     const text = await response.text();
     const vertices = parseOBJ(text);
     const boundingBoxInfo = computeBoundingBox(vertices);
@@ -89,8 +83,7 @@ async function init() {
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-    // --- Attributes ---
-    const STRIDE = 9 * 4; // 9 floats per vertex, 4 bytes each
+    const STRIDE = 9 * 4; 
     
     const posLoc = gl.getAttribLocation(program, 'position');
     gl.enableVertexAttribArray(posLoc);
@@ -104,7 +97,6 @@ async function init() {
     gl.enableVertexAttribArray(colLoc);
     gl.vertexAttribPointer(colLoc, 3, gl.FLOAT, false, STRIDE, 6 * 4);
 
-    // --- Uniforms ---
     const timeLoc = gl.getUniformLocation(program, 'time');
     const aspectLoc = gl.getUniformLocation(program, 'aspect');
     const resLoc = gl.getUniformLocation(program, 'resolution');
@@ -113,7 +105,6 @@ async function init() {
     const mouseLoc = gl.getUniformLocation(program, 'uMouse');
     const centerLoc = gl.getUniformLocation(program, 'uCenterOffset');
 
-    // Set Dither Uniforms
     gl.uniform1f(matSizeLoc, DITHER_MATRIX_SIZE);
     gl.uniform1f(biasLoc, DITHER_BIAS);
     gl.uniform3f(centerLoc, boundingBoxInfo.center[0], boundingBoxInfo.center[1], boundingBoxInfo.center[2]);
@@ -121,20 +112,17 @@ async function init() {
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
 
-
     let mouseX = 0;
     let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
 
     document.addEventListener('mousemove', (e) => {
-        // Normalize X: 0 to width -> -1 to 1
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        
-        // Normalize Y: 0 to height -> 1 to -1 (Inverted so up is positive)
-        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        targetX = (e.clientX / window.innerWidth) * 2 - 1;
+        targetY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
     function resize() {
-        // 1. Get the real window size
         const displayWidth = window.innerWidth;
         const displayHeight = window.innerHeight;
 
@@ -149,9 +137,18 @@ async function init() {
     resize();
 
     function loop(t) {
+        // Different smoothing for X and Y feels more organic
+        // X (Spin) is looser/heavier (0.05)
+        // Y (Tilt) is snappier (0.1) so it feels like you are balancing it
+        mouseX += (targetX - mouseX) * 0.05;
+        mouseY += (targetY - mouseY) * 0.1;
+
+        gl.clearColor(0.02, 0.02, 0.02, 1.0); // Match CSS background slightly
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        gl.uniform1f(timeLoc, t * 0.001);
+        gl.uniform1f(timeLoc, t * 0.0008);
         gl.uniform2f(mouseLoc, mouseX, mouseY);
+        
+        // Draw
         gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 9);
         requestAnimationFrame(loop);
     }

@@ -3,15 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome, welcome!</title>
+    <title>Portfolio_2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- WebGL Canvas Background -->
     <canvas id="glcanvas"></canvas>
 
-    <script type="module" src="parser.js">
-    </script>
-    <script type="module" src="canvas.js">
-    </script>
+    <!-- Main UI Layer -->
+    <div class="ui-layer">
+        <header>
+            <a href="#" class="logo">V.1.0</a>
+            <nav>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+        
+        <main class="hero">
+            <div class="hero-content">
+                <span class="hero-label">ML/AI Software Engineer</span>
+                <h1>Building<br>Intelligent<br>Systems</h1>
+                <p class="hero-description">
+                    ML/AI & SoC Automation at Marvell Technology<br> 
+                    Bridging deep learning with hardware engineering.
+                </p>
+                <div class="hero-cta">
+                    <a href="#experience" class="btn btn-primary">View Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                </div>
+            </div>
+        </main>
+
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="content">
+        
+        <!-- Experience Section -->
+        <section id="experience" class="section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>Experience</h2>
+            </div>
+
+            <div class="experience-grid">
+                <article class="experience-card">
+                    <div class="card-header">
+                        <h3>ML/AI Software Engineer</h3>
+                        <span class="card-meta">Intern • Current</span>
+                    </div>
+                    <p class="card-company">Marvell Technology — CAD/EDA Group</p>
+                    <ul class="card-list">
+                        <li>Lead architecture and implementation of full-stack AI/ML software projects, bridging Deep Learning with SoC engineering</li>
+                        <li>Designed infrastructure with RabbitMQ, PostgreSQL, and QDrant in containerized environments</li>
+                        <li>Developed Python pipelines for NLP workflows using industry EDA tools</li>
+                        <li>Presented technical architecture to a Senior VP and Distinguished Engineers</li>
+                    </ul>
+                    <div class="card-tags">
+                        <span>Python</span>
+                        <span>Docker</span>
+                        <span>RabbitMQ</span>
+                        <span>NLP</span>
+                    </div>
+                </article>
+
+                <article class="experience-card">
+                    <div class="card-header">
+                        <h3>Backend Developer</h3>
+                        <span class="card-meta">2023 — 2025</span>
+                    </div>
+                    <p class="card-company">kos.gg</p>
+                    <ul class="card-list">
+                        <li>Maintained Kotlin backends for real-time gaming analytics using Riot Games and Raider.io APIs</li>
+                        <li>Implemented functional programming patterns with Arrow-kt and database migrations with Flyway</li>
+                    </ul>
+                    <div class="card-tags">
+                        <span>Kotlin</span>
+                        <span>Ktor</span>
+                        <span>PostgreSQL</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>Projects</h2>
+            </div>
+
+            <div class="projects-grid">
+                <article class="project-card">
+                    <div class="project-icon">♟</div>
+                    <h3>Light Chess</h3>
+                    <p>High-performance chess engine in C++ compiled to WebAssembly via Emscripten. Engineered reusable logic achieving near-native browser performance.</p>
+                    <div class="card-tags">
+                        <span>C++</span>
+                        <span>WASM</span>
+                        <span>Emscripten</span>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-icon">🎬</div>
+                    <h3>Cartoon Recognition</h3>
+                    <p>Supervised learning model (SVM/k-NN) to classify animated shows with 93.5% precision. Focused on feature extraction and data augmentation.</p>
+                    <div class="card-tags">
+                        <span>ML</span>
+                        <span>MATLAB</span>
+                        <span>Computer Vision</span>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-icon">🎯</div>
+                    <h3>Movie Recommender</h3>
+                    <p>Collaborative filtering on large-scale datasets using MapReduce paradigms for parallel computation.</p>
+                    <div class="card-tags">
+                        <span>MapReduce</span>
+                        <span>Python</span>
+                    </div>
+                </article>
+
+                <article class="project-card featured">
+                    <div class="project-icon">◈</div>
+                    <h3>This Portfolio</h3>
+                    <p>Live WebGL instance with custom GLSL shaders. Experimenting with OpenGL to bridge heavy compute with visual interactivity.</p>
+                    <div class="card-tags">
+                        <span>WebGL</span>
+                        <span>GLSL</span>
+                        <span>JavaScript</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Skills</h2>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Languages</h4>
+                    <div class="skill-list">
+                        <span>C/C++</span>
+                        <span>Python</span>
+                        <span>Kotlin</span>
+                        <span>Java</span>
+                        <span>Haskell</span>
+                        <span>GLSL</span>
+                        <span>Lua</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Infrastructure</h4>
+                    <div class="skill-list">
+                        <span>Docker/Podman</span>
+                        <span>RabbitMQ</span>
+                        <span>PostgreSQL</span>
+                        <span>QDrant</span>
+                        <span>ElasticSearch</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Core Expertise</h4>
+                    <div class="skill-list">
+                        <span>System Architecture</span>
+                        <span>NLP</span>
+                        <span>Algorithms</span>
+                        <span>Parallel Computing</span>
+                        <span>OpenMP</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section section-contact">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>Contact</h2>
+            </div>
+
+            <div class="contact-content">
+                <p class="contact-text">Interested in working together?<br>Let's connect.</p>
+                <a href="mailto:hello@example.com" class="contact-email">vicolorajorge@gmail.com</a>
+                <p class="contact-education">B.S. Informatics Engineering — UPC Barcelona</p>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <span>© 2026</span>
+            <span>Built with WebGL</span>
+        </footer>
+    </div>
+
+    <script type="module" src="js/parser.js"></script>
+    <script type="module" src="js/canvas.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
