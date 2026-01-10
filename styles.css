@@ -2,6 +2,7 @@
   --bg: #0a0a0a;
   --bg-elevated: #111111;
   --bg-shadow: #0a0a0ad0;
+  --bg-shadow2: #000000f0;
   --text: #fafafa;
   --text-muted: #888888;
   --accent: #ccff00;
@@ -55,6 +56,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .logo {
@@ -94,7 +96,7 @@ nav a:hover {
 
 .menu-toggle span {
   width: 24px;
-  height: 1.5px;
+  height: 2px;
   background: var(--text);
   transition: 0.2s ease;
 }
@@ -106,6 +108,15 @@ nav a:hover {
   align-items: center;
   justify-content: space-between;
   padding: 4rem 0;
+}
+
+a {
+  font-weight: 800;
+  color: var(--accent);
+}
+
+a.ref:hover {
+  color: #b8e600;
 }
 
 .hero-content {
@@ -162,6 +173,7 @@ nav a:hover {
   border-radius: var(--radius);
   transition: all 0.2s ease;
   cursor: pointer;
+  text-align: center;
 }
 
 .btn-primary {
@@ -229,6 +241,8 @@ nav a:hover {
   position: relative;
   z-index: 2;
   background: var(--bg);
+  border-top: 1px solid var(--border);
+
 }
 
 .section {
@@ -470,36 +484,87 @@ nav a:hover {
 }
 
 @media (max-width: 768px) {
-  .ui-layer {
-    padding: 1.5rem;
-  }
-
+  /* 1. Reset the nav for animation */
   nav {
-    display: none;
+    display: flex; /* Keep it flex so we don't toggle display */
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0%;
+    width: 30%;
+    background: var(--bg-elevated); /* Slightly lighter background */
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 99;
+    
+    /* Animation state: Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
   }
 
+  /* 2. Active state: Visible */
+  nav.active {
+    opacity: 1;
+    visibility: visible;
+    width: 30%;
+    right: 0%;
+  }
+
+  /* 3. The Button Container */
   .menu-toggle {
-    display: flex;
+    display: block;
+    position: relative;
+    width: 44px;  /* Fixed touch target size */
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 100;
   }
 
-  .hero h1 {
-    font-size: clamp(2.5rem, 12vw, 4rem);
+  /* 4. The Hamburger Lines (Shared Styles) */
+  .menu-toggle span {
+    position: absolute;
+    left: 50%;
+    width: 24px;
+    height: 2px;
+    background-color: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    /* Center the pivot point */
+    transform-origin: center; 
+    transform: translateX(-50%);
   }
 
-
-  .scroll-indicator {
-    display: none;
+  /* 5. Line Positions (Closed State) */
+  /* Top line sits slightly above center */
+  .menu-toggle span:first-child {
+    top: 35%;
+  }
+  
+  /* Bottom line sits slightly below center */
+  .menu-toggle span:last-child {
+    top: 65%;
   }
 
-  .section {
-    padding: 4rem 1.5rem;
+  /* 6. Line Positions (Open/Active State) */
+  /* Both lines move to absolute center and rotate */
+  .menu-toggle.active span:first-child {
+    top: 50%;
+    transform: translateX(-50%) rotate(45deg);
   }
 
-  .projects-grid {
-    grid-template-columns: 1fr;
+  .menu-toggle.active span:last-child {
+    top: 50%;
+    transform: translateX(-50%) rotate(-45deg);
   }
+}
 
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
+.resize-animation-stopper * {
+  animation: none !important;
+  transition: none !important;
 }

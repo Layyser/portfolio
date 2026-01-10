@@ -2,7 +2,7 @@ import { parseOBJ } from './parser.js';
 
 // Dither settings
 const PIXEL_SCALE = 4; // integers from 1 (no scaling) to 4 (very pixelated)
-const DITHER_MATRIX_SIZE = 4; // 2/4/8
+const DITHER_MATRIX_SIZE = 4; // 2/4/8 -> 8 is broken
 const DITHER_BIAS = 0.6; // 0.0 to 1.0
 
 async function loadShaderSource(url) {
@@ -104,6 +104,7 @@ async function init() {
     const biasLoc = gl.getUniformLocation(program, 'bias');
     const mouseLoc = gl.getUniformLocation(program, 'uMouse');
     const centerLoc = gl.getUniformLocation(program, 'uCenterOffset');
+    const parallaxLoc = gl.getUniformLocation(program, 'uParallaxOffset');
 
     gl.uniform1f(matSizeLoc, DITHER_MATRIX_SIZE);
     gl.uniform1f(biasLoc, DITHER_BIAS);
@@ -121,6 +122,14 @@ async function init() {
         targetX = (e.clientX / window.innerWidth) * 2 - 1;
         targetY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
+
+    let scrollY = 0;
+    function updateScroll() {
+        const currentScroll = window.scrollY || window.pageYOffset;
+        scrollY = - (currentScroll / window.innerHeight) * 2 + 1;
+    }
+    document.addEventListener('scroll', updateScroll);
+    updateScroll();
 
     function resize() {
         const displayWidth = window.innerWidth;
@@ -147,7 +156,7 @@ async function init() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.uniform1f(timeLoc, t * 0.0008);
         gl.uniform2f(mouseLoc, mouseX, mouseY);
-        
+        gl.uniform1f(parallaxLoc, scrollY); // Parallax effect
         // Draw
         gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 9);
         requestAnimationFrame(loop);

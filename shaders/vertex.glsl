@@ -12,6 +12,7 @@ out vec3 vFragPos;
 uniform float time;
 uniform float aspect;
 uniform vec3 uCenterOffset;
+uniform float uParallaxOffset;
 
 void main() {
     vColor = vec3(1.0); 
@@ -27,7 +28,7 @@ void main() {
         -sy, 0.0, cy,  0.0, 
         0.0, 0.0, 0.0, 1.0
     );
-    float tiltAngleX = -0.5; 
+    float tiltAngleX = -0.45; 
     float tiltAngleZ = -0.5;
     float cx = cos(tiltAngleX); float sx = sin(tiltAngleX);
     float cz = cos(tiltAngleZ); float sz = sin(tiltAngleZ);
@@ -62,7 +63,7 @@ void main() {
     // 6. Push back slightly further
     mat4 modelMatrix = tiltZ * tiltX * spinMat * scaleMat;
     vec3 centeredPos = position - uCenterOffset;
-    vec4 offset = vec4(1.0, 1.0, 0.0, 0.0);
+    vec4 offset = vec4(min((uParallaxOffset*0.6 + 1.0),0.0), (uParallaxOffset*-0.65 + 1.4), 0.0, 0.0);
     vec4 pos = modelMatrix * vec4(centeredPos, 1.0) + offset;
     pos.z -= 7.5;          
 
