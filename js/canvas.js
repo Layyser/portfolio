@@ -5,6 +5,18 @@ const PIXEL_SCALE = 4; // integers from 1 (no scaling) to 4 (very pixelated)
 const DITHER_MATRIX_SIZE = 4; // 2/4/8 -> 8 is broken
 const DITHER_BIAS = 0.6; // 0.0 to 1.0
 
+function hexToRgb(hex) {
+  // Remove # if present
+  hex = hex.replace('#', '');
+  
+  // Parse hex values
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+  
+  return [r, g, b];
+}
+
 async function loadShaderSource(url) {
     const response = await fetch(url);
     return await response.text();
@@ -105,6 +117,12 @@ async function init() {
     const mouseLoc = gl.getUniformLocation(program, 'uMouse');
     const centerLoc = gl.getUniformLocation(program, 'uCenterOffset');
     const parallaxLoc = gl.getUniformLocation(program, 'uParallaxOffset');
+    const ditherColLoc = gl.getUniformLocation(program, 'ditherColor');
+
+    // Set dither color to match CSS accent color
+    const ditherColorHex = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const ditherColor = hexToRgb(ditherColorHex);
+    gl.uniform3f(ditherColLoc, ditherColor[0], ditherColor[1], ditherColor[2]);
 
     gl.uniform1f(matSizeLoc, DITHER_MATRIX_SIZE);
     gl.uniform1f(biasLoc, DITHER_BIAS);

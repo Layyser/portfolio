@@ -5,7 +5,7 @@
   --bg-shadow2: #000000f0;
   --text: #fafafa;
   --text-muted: #888888;
-  --accent: #ccff00;
+  --accent: #f4a261;
   --border: #222222;
   --radius: 0px;
   --radius2: 100px;
@@ -116,7 +116,7 @@ a {
 }
 
 a.ref:hover {
-  color: #b8e600;
+  color: var(--accent2);
 }
 
 .hero-content {
@@ -135,7 +135,7 @@ a.ref:hover {
   letter-spacing: 0.1em;
   margin-bottom: 1.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(204, 255, 0, 0.1);
+  background: var(--accent2-transparent);
   border-radius: var(--radius2);
 }
 
@@ -182,7 +182,7 @@ a.ref:hover {
 }
 
 .btn-primary:hover {
-  background: #b8e600;
+  background: var(--accent2);
   transform: translateY(-2px);
 }
 

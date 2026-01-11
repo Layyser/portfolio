@@ -57,3 +57,19 @@ document.querySelectorAll(".section").forEach((section) => {
   section.style.transition = "opacity 0.6s ease, transform 0.6s ease"
   observer.observe(section)
 })
+
+
+// Get the accent color
+const accentHex = getComputedStyle(document.documentElement)
+  .getPropertyValue('--accent')
+  .trim()
+  .replace('#', '');
+
+// Convert to RGB
+const r = parseInt(accentHex.substring(0, 2), 16);
+const g = parseInt(accentHex.substring(2, 4), 16);
+const b = parseInt(accentHex.substring(4, 6), 16);
+
+// Set the computed properties
+document.documentElement.style.setProperty('--accent2', `rgb(${r}, ${g}, ${b})`);
+document.documentElement.style.setProperty('--accent2-transparent', `rgba(${r}, ${g}, ${b}, 0.2)`);

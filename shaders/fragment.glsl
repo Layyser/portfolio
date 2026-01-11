@@ -15,7 +15,7 @@ uniform float matrixSize;
 uniform float bias;       
 
 // Cyber-Lime Color
-vec3 ditherColor = vec3(0.8, 1.0, 0.0); 
+uniform vec3 ditherColor; 
 
 const mat2x2 bayerMatrix2x2 = mat2x2(0.0, 2.0, 3.0, 1.0) / 4.0;
 const mat4 bayerMatrix4x4 = mat4( 0.0,  8.0,  2.0, 10.0,
