@@ -381,8 +381,8 @@ a.ref:hover {
 }
 
 .project-icon {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  display: block;
+  margin-bottom: 0.7rem;
 }
 
 .project-card h3 {
